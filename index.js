@@ -1,15 +1,14 @@
 //https://github.com/hij1nx/cdir/blob/master/cdir.js#L26
 //http://tldp.org/HOWTO/Bash-Prompt-HOWTO/x361.html
 //http://ascii-table.com/ansi-escape-sequences-vt-100.php
-//
-//Position the Cursor: \033[<L>;<C>H or \033[<L>;<C>f (puts the cursor at line L and column C)
 
 
 exports.dispatcher = require('./lib/sharedDispatcher');
 exports.events = require('./lib/events');
 exports.terminal = require('./lib/terminal');
-exports.lineEditor = require('./lib/messageEditor');
+exports.messageEditor = require('./lib/messageEditor');
 exports.ansi = require('./lib/ansi');
+exports.buffer = require('./lib/buffer');
 
 
 exports.init = function init() {
