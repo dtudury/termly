@@ -8,25 +8,24 @@ var buffer = require('../lib/buffer');//termly.buffer;
 var cursor = 0;
 var x = 0;
 var y = 0;
-var miniBuffers = [];
-enter();
+var miniBuffers = [new buffer.miniBuffer()];
 
 termly.init();
-termly.dispatcher.on(termly.ansi.keys.CTRL_C, function () {
+termly.dispatcher.on(termly.ansi.CTRL_C, function () {
     terminal.moveTo(1, termly.terminal.columns);
     terminal.scrollUpOne();
     process.exit();
 });
 terminal.blank();
 
-dispatcher.on(ansi.keys.LEFT, left);
-dispatcher.on(ansi.keys.RIGHT, right);
-dispatcher.on(ansi.keys.UP, up);
-dispatcher.on(ansi.keys.DOWN, down);
-dispatcher.on(ansi.keys.SPACE, append);
-dispatcher.on(ansi.keys.BACKSPACE, backspace);
-dispatcher.on(ansi.keys.ENTER, enter);
-dispatcher.on(ansi.keys.DEL, del);
+dispatcher.on(ansi.LEFT, left);
+dispatcher.on(ansi.RIGHT, right);
+dispatcher.on(ansi.UP, up);
+dispatcher.on(ansi.DOWN, down);
+dispatcher.on(ansi.SPACE, append);
+dispatcher.on(ansi.BACKSPACE, backspace);
+dispatcher.on(ansi.ENTER, enter);
+dispatcher.on(ansi.DEL, del);
 dispatcher.on(events.terminal.NORMAL_KEY, append);
 dispatcher.on(events.terminal.RESIZE, handleResize);
 redraw();
@@ -48,8 +47,7 @@ function up() {
     updateCursor();
 }
 function append(data) {
-    var color = ansi.text.setBackground(Math.floor(Math.random() * 8));
-    miniBuffers[0].spliceMessage(cursor, 0, color + data);
+    miniBuffers[0].spliceMessage(cursor, 0, [data]);
     cursor += data.length;
     redraw();
 }
@@ -63,6 +61,11 @@ function del() {
     redraw();
 }
 function enter() {
+    var color = ansi.setBackground(Math.floor(Math.random() * 8));
+    var label = "me: ".split("");
+    label[0] = ansi.setBackground(ansi.CYAN) + label[0];
+    label[label.length - 1] = label[label.length - 1] + ansi.resetFont;
+    miniBuffers[0].spliceMessage(0, 0, label);
     miniBuffers.unshift(new buffer.miniBuffer());
     redraw();
 }

@@ -1,6 +1,6 @@
 {
   "name": "termly",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "basic wrapping around term",
   "main": "index.js",
   "scripts": {
